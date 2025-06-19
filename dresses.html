@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Dresses - Purple Clone</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    .service-page {
+      padding: 40px;
+      text-align: center;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 25px;
+      margin-top: 30px;
+    }
+
+    .product-card {
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      background-color: #f9f9f9;
+    }
+
+    .product-img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 6px;
+    }
+
+    .product-card p {
+      margin: 10px 0 5px;
+      font-weight: bold;
+    }
+
+    .product-price {
+      color: #00bcd4;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+
+    .add-btn {
+      padding: 8px 16px;
+      background-color: #00bcd4;
+      color: white;
+      text-decoration: none;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    .add-btn:hover {
+      background-color: #0097a7;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Purple Clone</div>
+    <nav class="navbar">
+      <a href="home.html">Home</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="dresses.html" class="active">Dresses</a>
+      <a href="electronics.html">Electronics</a>
+      <a href="beauty.html">Beauty Products</a>
+      <a href="skincare.html">Skincare Products</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="cart.html">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <main class="service-page">
+    <h1>Dress Collection</h1>
+    <p>Find elegant and trendy dresses for every occasion.</p>
+
+    <div class="grid-container">
+      <!-- Dress Product Cards -->
+      <div class="product-card">
+        <img src="assets/Summer dress.jpg" alt="Summer Dress" class="product-img">
+        <p>Summer Dress</p>
+        <div class="product-price">₹799</div>
+        <button class="add-btn" onclick="addToCart('Summer Dress', 799)">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/evening gown.jpg" alt="Evening Gown" class="product-img">
+        <p>Evening Gown</p>
+        <div class="product-price">₹1499</div>
+        <button class="add-btn" onclick="addToCart('Evening Gown', 1499)">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/Maxi dress.jpg" alt="Maxi Dress" class="product-img">
+        <p>Maxi Dress</p>
+        <div class="product-price">₹1299</div>
+        <button class="add-btn" onclick="addToCart('Maxi Dress', 1299)">Add to Cart</button>
+      </div>
+
+      <div class="product-card">
+        <img src="assets/party dress.jpg" alt="Party Dress" class="product-img">
+        <p>Party Dress</p>
+        <div class="product-price">₹1699</div>
+        <button class="add-btn" onclick="addToCart('Party Dress', 1699)">Add to Cart</button>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Purple Clone. All rights reserved.</p>
+  </footer>
+
+  <!-- Cart Script -->
+  <script>
+    function addToCart(name, price) {
+      let cart = JSON.parse(localStorage.getItem('cart')) || [];
+      const product = { name, price };
+      cart.push(product);
+      localStorage.setItem('cart', JSON.stringify(cart));
+      alert(`${name} added to cart!`);
+    }
+  </script>
+</body>
+</html>
+<script>
+  function addToCart(name, price) {
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    // Check if the item already exists
+    const existingItem = cart.find(item => item.name === name);
+
+    if (existingItem) {
+      existingItem.quantity += 1;
+    } else {
+      cart.push({ name, price, quantity: 1 });
+    }
+
+    localStorage.setItem('cart', JSON.stringify(cart));
+    alert(`${name} added to cart!`);
+  }
+</script>
+

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Contact Us - Purple Clone</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f4f9fc;
+      margin: 0;
+    }
+
+    .form-container {
+      max-width: 600px;
+      margin: 80px auto;
+      background-color: #fff;
+      padding: 40px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      border-radius: 12px;
+    }
+
+    .form-container h2 {
+      color: #00bcd4;
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form input,
+    form textarea {
+      width: 100%;
+      padding: 14px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    form button {
+      width: 100%;
+      padding: 12px;
+      background-color: #00bcd4;
+      color: #fff;
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    form button:hover {
+      background-color: #0097a7;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: #e0f7fa;
+      margin-top: 40px;
+      color: #333;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Purple Clone</div>
+    <nav class="navbar">
+      <a href="home.html">Home</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="dresses.html">Dresses</a>
+      <a href="electronics.html">Electronics</a>
+      <a href="beauty.html">Beauty Products</a>
+      <a href="skincare.html">Skincare Products</a>
+      <a href="contact.html" class="active">Contact Us</a>
+      <a href="cart.html">🛒 Cart</a>
+    </nav>
+  </header>
+
+  <main class="form-container">
+    <h2>Contact Our Team</h2>
+    <form onsubmit="return validateContactForm()">
+      <input type="text" id="contactName" placeholder="Your Full Name" required />
+      <input type="email" id="contactEmail" placeholder="Your Email Address" required />
+      <textarea id="contactMessage" placeholder="How can we help you?" rows="6" required></textarea>
+      <button type="submit">Send Message</button>
+    </form>
+  </main>
+
+  <footer>
+    &copy; 2025 Purple Clone. All rights reserved.
+  </footer>
+
+  <script>
+    function validateContactForm() {
+      const name = document.getElementById("contactName").value.trim();
+      const email = document.getElementById("contactEmail").value.trim();
+      const message = document.getElementById("contactMessage").value.trim();
+
+      if (!name || !email || !message) {
+        alert("Please complete all fields before submitting.");
+        return false;
+      }
+
+      alert("Thank you for reaching out! We'll get back to you shortly.");
+      return false; // Change to true to allow real form submission
+    }
+  </script>
+</body>
+</html>

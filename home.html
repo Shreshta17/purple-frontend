@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Home - Purple Clone</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      margin: 30px auto;
+    }
+
+    .action-buttons a {
+      padding: 10px 20px;
+      background-color: #00bcd4;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .action-buttons a:hover {
+      background-color: #0097a7;
+    }
+
+    .grid-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 20px;
+      padding: 30px;
+    }
+
+    .card {
+      background-color: #f0f0f0;
+      border-radius: 8px;
+      padding: 15px;
+      text-align: center;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 10px;
+    }
+
+    .card a {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #00bcd4;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .card a:hover {
+      background-color: #0097a7;
+    }
+
+    /* ✅ Below-header top-right buttons */
+    .below-header-buttons {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      margin: 10px 30px 0;
+    }
+
+    .below-header-buttons a {
+      padding: 8px 14px;
+      background-color: #00bcd4;
+      color: white;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: bold;
+    }
+
+    .below-header-buttons a:hover {
+      background-color: #0097a7;
+    }
+
+    header {
+      position: relative;
+      padding: 20px;
+      background-color: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #00bcd4;
+    }
+
+    .navbar {
+      margin-top: 10px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .navbar a {
+      text-decoration: none;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .navbar a.active {
+      font-weight: bold;
+      color: #00bcd4;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Purple Clone</div>
+
+    <nav class="navbar">
+      <a href="home.html" class="active">Home</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="dresses.html">Dresses</a>
+      <a href="electronics.html">Electronics</a>
+      <a href="beauty.html">Beauty Products</a>
+      <a href="skincare.html">Skincare Products</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <!-- ✅ Buttons moved below the header -->
+  <div class="below-header-buttons">
+    <a href="login.html">Login / Signup</a>
+    <a href="cart.html">Cart</a>
+  </div>
+
+  <main class="home-content">
+    <h1>Welcome to Purple Clone</h1>
+    <p>Your one-stop shop for fashion, electronics, and skincare needs.</p>
+
+    <!-- ❌ Removed from here (as requested) -->
+    <!-- <div class="action-buttons">
+      <a href="login.html">Login / Signup</a>
+      <a href="cart.html">Add to Cart</a>
+    </div> -->
+
+    <div class="grid-container">
+      <div class="card">
+        <img src="assets/small imagesssss.jpg" alt="Fashion Image">
+        <h3>Fashion</h3>
+        <p>Discover the latest trends.</p>
+        <a href="fashion.html">Explore</a>
+      </div>
+      <div class="card">
+        <img src="assets/smzll.jpg" alt="Dresses Image">
+        <h3>Dresses</h3>
+        <p>Stylish dresses for every occasion.</p>
+        <a href="dresses.html">Explore</a>
+      </div>
+      <div class="card">
+        <img src="assets/electronics 2.jpg" alt="Electronics Image">
+        <h3>Electronics</h3>
+        <p>Shop gadgets and devices.</p>
+        <a href="electronics.html">Explore</a>
+      </div>
+      <div class="card">
+        <img src="assets/beauty 3.jpg" alt="Beauty Products Image">
+        <h3>Beauty Products</h3>
+        <p>Enhance your beauty naturally.</p>
+        <a href="beauty.html">Explore</a>
+      </div>
+      <div class="card">
+        <img src="assets/Moisturizer 1.jpg" alt="Skincare Products Image">
+        <h3>Skincare</h3>
+        <p>Keep your skin glowing and fresh.</p>
+        <a href="skincare.html">Explore</a>
+      </div>
+      <div class="card">
+        <img src="assets/Contact-Us.jpg" alt="Contact Us Image">
+        <h3>Contact Us</h3>
+        <p>Reach out for help and support.</p>
+        <a href="contact.html">Contact</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    &copy; 2025 Purple Clone. All rights reserved.
+  </footer>
+</body>
+</html>

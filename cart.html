@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Your Cart - Purple Clone</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      margin: 0;
+    }
+
+    main.cart-page {
+      flex: 1;
+      text-align: center;
+      padding: 40px;
+    }
+
+    h2 {
+      color: #00bcd4;
+      margin-bottom: 30px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 10px auto;
+      padding: 15px;
+      max-width: 700px;
+      background-color: #f9f9f9;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .item-name {
+      font-weight: bold;
+      flex: 2;
+    }
+
+    .item-controls {
+      display: flex;
+      gap: 10px;
+      align-items: center;
+      flex: 2;
+      justify-content: center;
+    }
+
+    .item-price {
+      color: #00bcd4;
+      font-weight: bold;
+      flex: 1;
+    }
+
+    .remove-btn {
+      background-color: #f44336;
+      color: white;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .qty-btn {
+      padding: 5px 10px;
+      font-size: 16px;
+      cursor: pointer;
+      border: none;
+      border-radius: 4px;
+      background-color: #00bcd4;
+      color: white;
+    }
+
+    .qty-btn:hover {
+      background-color: #0097a7;
+    }
+
+    .total {
+      font-size: 20px;
+      margin-top: 30px;
+      color: #333;
+    }
+
+    .empty-cart {
+      font-size: 18px;
+      color: #777;
+    }
+
+    .clear-btn {
+      margin-top: 20px;
+      background-color: #ff9800;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+
+    .clear-btn:hover {
+      background-color: #e68a00;
+    }
+
+    footer {
+      text-align: center;
+      padding: 15px;
+      background-color: #f0f0f0;
+      color: #555;
+      justify-content: center;
+      align-items: center;
+      display: flex;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">Purple Clone</div>
+    <nav class="navbar">
+      <a href="home.html">Home</a>
+      <a href="fashion.html">Fashion</a>
+      <a href="dresses.html">Dresses</a>
+      <a href="electronics.html">Electronics</a>
+      <a href="beauty.html">Beauty Products</a>
+      <a href="skincare.html">Skincare Products</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+  </header>
+
+  <main class="cart-page">
+    <h2>Your Shopping Cart</h2>
+    <div id="cartItems"></div>
+    <div id="cartTotal" class="total"></div>
+    <button class="clear-btn" onclick="clearCart()">Clear Cart</button>
+  </main>
+
+  <footer>
+    &copy; 2025 Purple Clone. All rights reserved.
+  </footer>
+
+  <script>
+    const cartItemsDiv = document.getElementById('cartItems');
+    const cartTotalDiv = document.getElementById('cartTotal');
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+
+    function renderCart() {
+      cartItemsDiv.innerHTML = '';
+      cartTotalDiv.innerHTML = '';
+
+      if (cart.length === 0) {
+        cartItemsDiv.innerHTML = '<p class="empty-cart">Your cart is currently empty.</p>';
+        return;
+      }
+
+      let total = 0;
+
+      cart.forEach((item, index) => {
+        const itemDiv = document.createElement('div');
+        itemDiv.className = 'cart-item';
+        itemDiv.innerHTML = `
+          <span class="item-name">${item.name}</span>
+          <div class="item-controls">
+            <button class="qty-btn" onclick="decreaseQty(${index})">−</button>
+            <span>${item.quantity}</span>
+            <button class="qty-btn" onclick="increaseQty(${index})">+</button>
+          </div>
+          <span class="item-price">₹${item.price * item.quantity}</span>
+          <button class="remove-btn" onclick="removeItem(${index})">Remove</button>
+        `;
+        cartItemsDiv.appendChild(itemDiv);
+        total += item.price * item.quantity;
+      });
+
+      cartTotalDiv.textContent = `Total: ₹${total}`;
+    }
+
+    function increaseQty(index) {
+      cart[index].quantity += 1;
+      updateCart();
+    }
+
+    function decreaseQty(index) {
+      if (cart[index].quantity > 1) {
+        cart[index].quantity -= 1;
+      } else {
+        cart.splice(index, 1);
+      }
+      updateCart();
+    }
+
+    function removeItem(index) {
+      cart.splice(index, 1);
+      updateCart();
+    }
+
+    function clearCart() {
+      if (confirm('Are you sure you want to clear the cart?')) {
+        cart = [];
+        updateCart();
+      }
+    }
+
+    function updateCart() {
+      localStorage.setItem('cart', JSON.stringify(cart));
+      renderCart();
+    }
+
+    renderCart();
+  </script>
+</body>
+</html>
