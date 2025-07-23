@@ -31,10 +31,17 @@
     form textarea {
       width: 100%;
       padding: 14px;
-      margin-bottom: 20px;
+      margin-bottom: 10px;
       border: 1px solid #ccc;
       border-radius: 6px;
       font-size: 16px;
+    }
+
+    .error {
+      color: red;
+      font-size: 14px;
+      min-height: 18px;
+      margin-bottom: 10px;
     }
 
     form button {
@@ -49,7 +56,12 @@
       transition: background-color 0.3s ease;
     }
 
-    form button:hover {
+    form button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    form button:hover:not([disabled]) {
       background-color: #0097a7;
     }
 
@@ -79,11 +91,12 @@
 
   <main class="form-container">
     <h2>Contact Our Team</h2>
-    <form onsubmit="return validateContactForm()">
+    <form id="contactForm">
       <input type="text" id="contactName" placeholder="Your Full Name" required />
       <input type="email" id="contactEmail" placeholder="Your Email Address" required />
       <textarea id="contactMessage" placeholder="How can we help you?" rows="6" required></textarea>
-      <button type="submit">Send Message</button>
+      <div class="error" id="error"></div>
+      <button type="submit" id="submitBtn">Send Message</button>
     </form>
   </main>
 
@@ -91,20 +104,66 @@
     &copy; 2025 Purple Clone. All rights reserved.
   </footer>
 
+  <script src="config.js"></script>
   <script>
-    function validateContactForm() {
+    const contactForm = document.getElementById("contactForm");
+    const errorDiv = document.getElementById("error");
+    const submitBtn = document.getElementById("submitBtn");
+
+    const API_BASE = (typeof window !== "undefined" && window.__API_BASE_URL__) ? window.__API_BASE_URL__ : "/api";
+
+    contactForm.addEventListener("submit", async function (e) {
+      e.preventDefault();
+      errorDiv.textContent = "";
+
       const name = document.getElementById("contactName").value.trim();
       const email = document.getElementById("contactEmail").value.trim();
       const message = document.getElementById("contactMessage").value.trim();
 
-      if (!name || !email || !message) {
-        alert("Please complete all fields before submitting.");
-        return false;
+      if (name.length < 3) {
+        errorDiv.textContent = "Name must be at least 3 characters.";
+        return;
+      }
+      if (!email.includes("@") || email.length < 5) {
+        errorDiv.textContent = "Enter a valid email.";
+        return;
+      }
+      if (message.length < 10) {
+        errorDiv.textContent = "Message must be at least 10 characters.";
+        return;
       }
 
-      alert("Thank you for reaching out! We'll get back to you shortly.");
-      return false; // Change to true to allow real form submission
-    }
+      submitBtn.disabled = true;
+
+      try {
+        const res = await fetch(`${API_BASE}/contact`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ name, email, message }),
+        });
+
+        const text = await res.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          console.error("Non-JSON response:", text);
+          data = { error: "Server error. Please try again." };
+        }
+
+        if (res.ok) {
+          alert("Message sent successfully!");
+          contactForm.reset();
+        } else {
+          errorDiv.textContent = data.error || `Send failed (${res.status}).`;
+        }
+      } catch (err) {
+        console.error(err);
+        errorDiv.textContent = "Network error. Please try again.";
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
   </script>
 </body>
 </html>
