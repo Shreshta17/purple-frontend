@@ -4,133 +4,102 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Signup - Purple Clone</title>
-  <link rel="stylesheet" href="css/style.css" />
   <style>
     body {
       font-family: Arial, sans-serif;
-    }
-
-    header {
-      padding: 20px;
-      background-color: #fff;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    }
-
-    .logo {
-      font-size: 24px;
-      font-weight: bold;
-      color: #00bcd4;
-    }
-
-    .navbar {
-      margin-top: 10px;
-    }
-
-    .navbar a {
-      text-decoration: none;
-      color: #333;
-      font-weight: 500;
-      margin-right: 15px;
-    }
-
-    .form-container {
+      background-color: #e6f0ff;
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 70vh;
-      flex-direction: column;
+      height: 100vh;
+      margin: 0;
     }
 
-    .signup-box {
-      background-color: #fff;
-      border: 2px solid #ccc;
-      padding: 20px;
-      width: 300px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    .signup-container {
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px rgba(0,0,0,0.1);
+      width: 350px;
     }
 
-    .signup-box h2 {
+    h2 {
       text-align: center;
       color: purple;
-      margin-bottom: 15px;
     }
 
-    .signup-box input {
+    input {
       width: 100%;
       padding: 10px;
-      margin: 10px 0;
+      margin: 8px 0;
       border: 1px solid #ccc;
-      border-radius: 4px;
+      border-radius: 6px;
     }
 
-    .signup-box button {
+    button {
       width: 100%;
       background-color: #00bcd4;
       color: white;
-      padding: 10px;
+      padding: 12px;
       border: none;
-      border-radius: 4px;
+      border-radius: 6px;
+      font-size: 16px;
       cursor: pointer;
-      margin-top: 10px;
     }
 
-    .signup-box button:hover {
+    button[disabled] {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    button:hover:not([disabled]) {
       background-color: #0097a7;
     }
 
-    .login-redirect {
-      margin-top: 15px;
-      text-align: center;
+    .error {
+      color: red;
+      font-size: 14px;
+      margin-top: 5px;
+      min-height: 18px;
     }
 
-    .login-redirect a button {
-      background-color: #673ab7;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 4px;
-      cursor: pointer;
+    .login-link {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .login-link a {
+      color: #673ab7;
+      text-decoration: none;
       font-weight: bold;
     }
 
-    .login-redirect a button:hover {
-      background-color: #512da8;
+    .login-link a:hover {
+      text-decoration: underline;
     }
   </style>
 </head>
 <body>
-  <header>
-    <div class="logo">Purple Clone</div>
-    <nav class="navbar">
-      <a href="home.html">Home</a>
-      <a href="login.html">Login</a>
-    </nav>
-  </header>
-
-  <main class="form-container">
-    <div class="signup-box">
-      <h2>Signup</h2>
-      <form id="signupForm">
-        <input type="text" name="fullName" placeholder="Full Name" required />
-        <input type="email" name="email" placeholder="Email" required />
-        <input type="password" name="password" placeholder="Password" required />
-        <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
-        <button type="submit">Signup</button>
-      </form>
+  <div class="signup-container">
+    <h2>Signup</h2>
+    <form id="signupForm">
+      <input type="text" name="fullName" placeholder="Full Name" required />
+      <input type="email" name="email" placeholder="Email" required />
+      <input type="password" name="password" placeholder="Password" required />
+      <input type="password" name="confirmPassword" placeholder="Confirm Password" required />
+      <div class="error" id="error"></div>
+      <button type="submit" id="signupBtn">Signup</button>
+    </form>
+    <div class="login-link">
+      Already have an account? <a href="login.html">Login</a>
     </div>
+  </div>
 
-    <div class="login-redirect">
-      <a href="login.html"><button>Already have an account? Login</button></a>
-    </div>
-  </main>
-
-  <footer>
-    &copy; 2025 Purple Clone. All rights reserved.
-  </footer>
-
-  <!-- ✅ Updated JavaScript to POST to backend -->
+  <!-- Optional: dynamic config.js injection -->
+  <script src="config.js"></script>
   <script>
+    const API_BASE = (typeof window !== "undefined" && window.__API_BASE_URL__) ? window.__API_BASE_URL__ : "/api";
+
     document.getElementById('signupForm').addEventListener('submit', async function(e) {
       e.preventDefault();
 
@@ -139,13 +108,20 @@
       const password = e.target.password.value;
       const confirmPassword = e.target.confirmPassword.value;
 
+      const errorDiv = document.getElementById("error");
+      const signupBtn = document.getElementById("signupBtn");
+
+      errorDiv.textContent = "";
+
       if (password !== confirmPassword) {
-        alert("❌ Passwords do not match!");
+        errorDiv.textContent = "❌ Passwords do not match!";
         return;
       }
 
+      signupBtn.disabled = true;
+
       try {
-        const response = await fetch('http://localhost:3000/signup', {
+        const response = await fetch(`${API_BASE}/signup`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
@@ -153,16 +129,25 @@
           body: JSON.stringify({ fullName, email, password, confirmPassword })
         });
 
+        const text = await response.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch {
+          data = { error: text || "Unexpected error" };
+        }
+
         if (response.ok) {
           alert('✅ Signup successful! Redirecting to login...');
           window.location.href = 'login.html';
         } else {
-          const errorText = await response.text();
-          alert(errorText);
+          errorDiv.textContent = data.error || `Signup failed (${response.status}).`;
         }
       } catch (err) {
         console.error('❌ Signup error:', err);
-        alert('❌ Something went wrong. Please try again later.');
+        errorDiv.textContent = "❌ Network error. Please try again later.";
+      } finally {
+        signupBtn.disabled = false;
       }
     });
   </script>
