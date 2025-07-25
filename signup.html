@@ -126,7 +126,11 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ fullName, email, password, confirmPassword })
+          body: JSON.stringify({
+            fullname: fullName, // ✅ MATCH BACKEND EXPECTATION
+            email,
+            password
+          })
         });
 
         const text = await response.text();
